@@ -19,6 +19,7 @@ import {
 } from "react-native-sensors";
 import throttle from "lodash-es/throttle";
 import { command as cmd } from "./bebop2/command";
+import DropdownAlert from 'react-native-dropdownalert'
 
 const Value = ({ name, value }) => (
   <View style={styles.valueContainer}>
@@ -75,11 +76,13 @@ export default class Magic extends Component {
     if (Platform.OS === "ios") {
         if (y > lastY) {
           if (Math.abs(lastY - y) > 0.3) {
+            this.dropdown.alertWithType('success', 'Back', 'Going back');
             this.goBackOnMove();
           }
         }
         if (y < lastY) {
           if (Math.abs(lastY - y) > 0.3) {
+            this.dropdown.alertWithType('success', 'Forward', 'Going forward');
             this.goForwardOnMove();
           }
         }
@@ -133,9 +136,11 @@ export default class Magic extends Component {
                 alignSelf: "center"
               }}
               onPress={() => {
+                this.dropdown.alertWithType('success', 'Info', 'Going up');
                 console.log("Going up");
                 cmd.up(PITCH);
                 setTimeout(() => {
+                  this.dropdown.alertWithType('success', 'Info', 'Stopping');
                   console.log("Stopping");
                   cmd.stop();
                 }, DURATION);
@@ -155,9 +160,10 @@ export default class Magic extends Component {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                  console.log("Going left");
+                  this.dropdown.alertWithType('success', 'Info', 'Going left');
                   cmd.left(PITCH);
                   setTimeout(() => {
+                    this.dropdown.alertWithType('success', 'Info', 'Stopping');
                     console.log("Stopping");
                     cmd.stop();
                   }, DURATION);
@@ -173,9 +179,10 @@ export default class Magic extends Component {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                  console.log("Going right");
+                  this.dropdown.alertWithType('success', 'Info', 'Going right');
                   cmd.right(PITCH);
                   setTimeout(() => {
+                    this.dropdown.alertWithType('success', 'Info', 'Stopping');
                     console.log("Stopping");
                     cmd.stop();
                   }, DURATION);
@@ -191,9 +198,10 @@ export default class Magic extends Component {
                 alignSelf: "center"
               }}
               onPress={() => {
-                console.log("Going down");
+                this.dropdown.alertWithType('success', 'Info', 'Going down');
                 cmd.down(PITCH);
                 setTimeout(() => {
+                  this.dropdown.alertWithType('success', 'Info', 'Stopping');
                   console.log("Stopping");
                   cmd.stop();
                 }, DURATION);
@@ -214,9 +222,10 @@ export default class Magic extends Component {
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                console.log("Going forward");
+                this.dropdown.alertWithType('success', 'Info', 'Going forward');
                 cmd.forward(PITCH);
                 setTimeout(() => {
+                  this.dropdown.alertWithType('success', 'Info', 'Stopping');
                   console.log("Stopping");
                   cmd.stop();
                 }, DURATION);
@@ -232,10 +241,10 @@ export default class Magic extends Component {
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                console.log("Going back");
+                this.dropdown.alertWithType('success', 'Info', 'Going back');
                 cmd.back(PITCH);
                 setTimeout(() => {
-                  console.log("Stopping");
+                  this.dropdown.alertWithType('success', 'Info', 'Stopping');
                   cmd.stop();
                 }, DURATION);
               }}
@@ -263,6 +272,7 @@ export default class Magic extends Component {
             <Value name="z" value={this.state.z} />
           </View>
         </View>
+        <DropdownAlert ref={ref => this.dropdown = ref} closeInterval={DURATION} />
       </ScrollView>
     );
   }

@@ -8,6 +8,7 @@ import {
   Dimensions
 } from "react-native";
 const { height, width } = Dimensions.get("window");
+import DropdownAlert from 'react-native-dropdownalert';
 
 import { connect, sendCommand } from "./bebop2";
 import { command as cmd } from "./bebop2/command";
@@ -35,11 +36,11 @@ export default class Home extends React.Component {
           onPress={() => {
             connect(
               function() {
-                Alert.alert("Success", "Drone connected");
+                this.dropdown.alertWithType('success', 'Connected', 'Drone connected');
                 console.log("Drone connected");
               },
               function(errData) {
-                Alert.alert("Error", JSON.stringify(errData));
+                this.dropdown.alertWithType('error', 'Error', 'Drone not connected');
                 console.log("Drone not connected", errData);
               }
             );
@@ -52,7 +53,7 @@ export default class Home extends React.Component {
           onPress={() => {
             sendCommand(cmd.takeOff(), message => {
               console.log("TAKE OFF 2", message);
-              Alert.alert("Take off", JSON.stringify(message));
+              this.dropdown.alertWithType('success', 'Info', 'Taking off');
             });
           }}
         >
@@ -63,7 +64,7 @@ export default class Home extends React.Component {
           onPress={() => {
             sendCommand(cmd.land(), message => {
               console.log("LAND", message);
-              Alert.alert("Land", JSON.stringify(message));
+              this.dropdown.alertWithType('success', 'Info', 'Landing');
             });
           }}
         >
@@ -83,6 +84,7 @@ export default class Home extends React.Component {
             alignItems: "center"
           }}
         />
+        <DropdownAlert ref={ref => this.dropdown = ref} closeInterval={1000} />
       </View>
     );
   }
