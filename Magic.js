@@ -75,14 +75,12 @@ export default class Magic extends Component {
     if (Platform.OS === "ios") {
         if (y > lastY) {
           if (Math.abs(lastY - y) > 0.3) {
-            Alert.alert("Back", "Going down");
             this.goBackOnMove();
           }
         }
         if (y < lastY) {
           if (Math.abs(lastY - y) > 0.3) {
-            Alert.alert("Forward", "Going forward");
-            this.goBackOnMove();
+            this.goForwardOnMove();
           }
         }
     }
