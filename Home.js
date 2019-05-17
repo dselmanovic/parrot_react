@@ -36,11 +36,11 @@ export default class Home extends React.Component {
           onPress={() => {
             connect(
               function() {
-                this.dropdown.alertWithType('success', 'Connected', 'Drone connected');
+                Alert.alert('Success', 'Drone connected');
                 console.log("Drone connected");
               },
               function(errData) {
-                this.dropdown.alertWithType('error', 'Error', 'Drone not connected');
+                Alert.alert('Error', 'Drone not connected');
                 console.log("Drone not connected", errData);
               }
             );
